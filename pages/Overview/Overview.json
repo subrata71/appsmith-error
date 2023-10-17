@@ -1,0 +1,70 @@
+{
+  "unpublishedPage": {
+    "name": "Overview",
+    "slug": "overview",
+    "layouts": [
+      {
+        "viewMode": false,
+        "dsl": {
+          "widgetName": "MainContainer",
+          "backgroundColor": "none",
+          "rightColumn": 4896,
+          "snapColumns": 64,
+          "detachFromLayout": true,
+          "widgetId": "0",
+          "topRow": 0,
+          "bottomRow": 2350,
+          "containerStyle": "none",
+          "snapRows": 124,
+          "parentRowSpace": 1,
+          "type": "CANVAS_WIDGET",
+          "canExtend": true,
+          "version": 83,
+          "minHeight": 1292,
+          "dynamicTriggerPathList": [],
+          "parentColumnSpace": 1,
+          "dynamicBindingPathList": [],
+          "leftColumn": 0
+        },
+        "layoutOnLoadActions": [
+          [
+            {
+              "id": "Overview_lib.pageLoad",
+              "name": "lib.pageLoad",
+              "collectionId": "Overview_lib",
+              "confirmBeforeExecute": false,
+              "pluginType": "JS",
+              "jsonPathKeys": [
+                "async function (params) {\n  settings.setStore();\n  if (inputUser.text.length > 3) {\n    showModal('loaderModal');\n    await api.getUserOverview();\n    if (lib.getFiatAccount()?.partner?.user_status == 'CLOSED') {\n      closeAccountButton.setDisabled(true);\n    } else {\n      closeAccountButton.setDisabled(false);\n    }\n    if (!api.userOverviewData?.error) {\n      showAlert('User Found Successfully', 'success');\n      lib.runQueries();\n    }\n    closeModal('loaderModal');\n  } else if (params && params.submit) {\n    showAlert('Please enter correct input', 'warning');\n  }\n}"
+              ],
+              "timeoutInMillisecond": 10000
+            }
+          ],
+          [
+            {
+              "id": "Overview_getPositiveStrike",
+              "name": "getPositiveStrike",
+              "confirmBeforeExecute": false,
+              "pluginType": "DB",
+              "jsonPathKeys": [
+                " lib.getAccountDetails().juno_user_id "
+              ],
+              "timeoutInMillisecond": 90000
+            }
+          ]
+        ],
+        "layoutOnLoadActionErrors": [],
+        "validOnPageLoadActions": true,
+        "id": "Overview",
+        "deleted": false,
+        "policies": [],
+        "userPermissions": []
+      }
+    ],
+    "userPermissions": [],
+    "policies": [],
+    "isHidden": false
+  },
+  "deleted": false,
+  "gitSyncId": "64e36c741c51a966df2e3ca9_64e36c741c51a966df2e3cab"
+}

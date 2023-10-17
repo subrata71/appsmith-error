@@ -1,0 +1,15 @@
+{
+  "unpublishedCollection": {
+    "name": "utils",
+    "pageId": "Card",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [],
+    "userPermissions": []
+  },
+  "id": "Card_utils",
+  "deleted": false,
+  "gitSyncId": "651edbfc6e58595db41e8196_651edc246e58595db41e8262"
+}

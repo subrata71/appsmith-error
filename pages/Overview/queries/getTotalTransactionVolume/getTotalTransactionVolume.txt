@@ -1,0 +1,9 @@
+SELECT
+	to_char(CAST(SUM(COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)) AS float), 'FM$999,999,999,990D00') AS volume,
+count(_id) as txns 
+FROM
+    mongo_api_transaction t
+WHERE
+    t.status.code = 4
+		and t.transaction_type.code not in (35,36)
+    and user_id = '{{ lib.getAccountDetails().juno_user_id }}'  

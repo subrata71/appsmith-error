@@ -1,0 +1,96 @@
+SELECT
+    total_volume,
+    total_txn_count,
+    cancelled_txn_amount,
+    cancelled_txn_count,
+    returned_txn_amount,
+    returned_txn_count,
+    cash_deposits,
+    cash_deposits_count,
+    dd_amount,
+    cashback_amount,
+    cashback_txn_count,
+    crypto_withdrawal_amount,
+		card_purchase_amount,
+		disputed_txn_count,
+		card_purchase_txn_count
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND email='{{ lib.getPersonalDetails().email }}') u
+LEFT JOIN
+    (SELECT user_id, 
+     SUM(CASE WHEN transaction_type.code not in (35,36) and status.code=4 then COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float else 0 end) AS total_volume,
+     SUM(CASE WHEN status.code=5
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS cancelled_txn_amount,
+      sum(CASE WHEN status.code=4 and transaction_type.code not in (35,36)
+          THEN 1
+          ELSE 0 
+      END) AS total_txn_count,
+      sum(CASE WHEN status.code=5
+          THEN 1
+          ELSE 0 
+      END) AS cancelled_txn_count,
+       SUM(CASE WHEN status.code=6
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS returned_txn_amount,
+      sum(CASE WHEN status.code=6
+          THEN 1
+          ELSE 0 
+      END) AS returned_txn_count,
+       SUM(CASE WHEN status.code=4 and side = 2 AND
+              transaction_type.name IN (
+                'external_transfer',
+                'added_money_via_card_astra',
+                'added_money',
+                'added_money_via_card',
+                'check_deposit'
+                ) 
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS cash_deposits,
+      SUM(CASE WHEN status.code=4 and side = 2 AND
+              transaction_type.name IN (
+                'external_transfer',
+                'added_money_via_card_astra',
+                'added_money',
+                'added_money_via_card',
+                'check_deposit'
+                ) 
+          THEN 1
+          ELSE 0 
+      END) AS cash_deposits_count,
+      
+  SUM(CASE WHEN status.code=4 and transaction_type.name IN ('card_purchase') 
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS card_purchase_amount,
+  SUM(CASE WHEN status.code=4 and transaction_type.name IN ('card_purchase') 
+          THEN 1
+          ELSE 0 
+      END) AS card_purchase_txn_count,
+ SUM(CASE WHEN status.code=4 and transaction_type.name IN ('cashback') 
+          THEN 1
+          ELSE 0 
+      END) AS cashback_txn_count,
+  SUM(CASE WHEN status.code=4 and is_dd=1
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS dd_amount,
+  SUM(CASE WHEN status.code=4 and transaction_type.name IN ('cashback') 
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS cashback_amount,
+       SUM(CASE WHEN status.code=4 and transaction_type.name IN ('crypto_transaction') and side=1 
+          THEN (COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) 
+          ELSE 0 
+      END) AS crypto_withdrawal_amount,
+      sum(CASE WHEN status.code=4 and synapse_extra.other.disputed = true
+          THEN 1
+          ELSE 0 
+      END) AS disputed_txn_count
+     FROM mongo_api_transaction
+     GROUP BY user_id) t
+ON
+    t.user_id = u.user_id;

@@ -1,0 +1,14 @@
+SELECT
+    u.email AS email,
+    case when t.vol>1000 then 'yes' else 'no' end as result
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select user_id,
+sum(amount) as vol
+from mongo_api_transaction  where 
+status.code=4 
+and side=2 and lower(synapse_from.meta.merchant_name::varchar) in ('cashapp','cash app','varo','chime','varo','sofi','venmo','zelle','paypal')
+group by user_id) t
+ON
+    t.user_id = u.user_id;

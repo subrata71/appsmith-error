@@ -1,0 +1,5 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+    "country_code": {{newPhoneNumber.dialCode}},
+    "phone": {{newPhoneNumber.value}},
+}

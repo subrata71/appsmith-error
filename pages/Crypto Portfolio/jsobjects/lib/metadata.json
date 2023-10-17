@@ -1,0 +1,15 @@
+{
+  "unpublishedCollection": {
+    "name": "lib",
+    "pageId": "Crypto Portfolio",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [],
+    "userPermissions": []
+  },
+  "id": "Crypto Portfolio_lib",
+  "deleted": false,
+  "gitSyncId": "65141d336e58595db41e7610_651ed44e6e58595db41e8040"
+}

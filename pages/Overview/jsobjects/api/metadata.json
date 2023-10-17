@@ -1,0 +1,32 @@
+{
+  "unpublishedCollection": {
+    "name": "api",
+    "pageId": "Overview",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [
+      {
+        "name": "getUserOverviewError",
+        "value": "''"
+      },
+      {
+        "name": "flaggingHistoryData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      },
+      {
+        "name": "piiUpdateHistoryData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      },
+      {
+        "name": "changeMailingAddressData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      }
+    ],
+    "userPermissions": []
+  },
+  "id": "Overview_api",
+  "deleted": false,
+  "gitSyncId": "6523d3406e58595db41e864b_6523d3736e58595db41e86dc"
+}

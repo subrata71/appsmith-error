@@ -1,0 +1,14 @@
+SELECT
+    u.email AS email,
+    t.volume as total_cashback
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getFilterData().juno_user_id }}') u
+LEFT JOIN
+    (SELECT user_id, SUM(COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) AS volume
+     FROM mongo_api_transaction
+     WHERE
+          status.code = 4
+          and transaction_type.name='cashback' and side=2
+     GROUP BY user_id) t
+ON
+    t.user_id = u.user_id;

@@ -1,0 +1,24 @@
+SELECT
+  internal_name as tier,
+  s.start_date AS tier_start_date,
+  case
+    when action = 1 then 'DD'
+    when action = 2 then 'Juno Launch'
+    when action = 3 then 'CRM'
+    when action = 4 then 'On Signup'
+    when action = 5 then 'Backend script'
+    when action = 6 then 'Argyle'
+		when action = 7 then 'Auto-upgrade'
+		when action = 8 then 'On-chain quest'
+		when action = 9 then 'On-chain activity'
+		when action = 10 then 'Downgrade'
+		when action = 11 then 'Off-platform Strike'
+		when action = 12 then 'User requested via CTA'
+		when action = 13 then 'On-platform strike'
+  end as action
+FROM
+  mongo_api_usersubscriptiontier AS s
+where
+  s.user_id = '{{ lib.getAccountDetails().juno_user_id }}'  
+order by
+  tier_start_date desc

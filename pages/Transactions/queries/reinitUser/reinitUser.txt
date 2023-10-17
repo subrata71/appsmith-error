@@ -1,0 +1,5 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+    "tag": "BLURRY_DOCUMENT_PHOTO",
+		"note": {{ manualKYCNote.text }},
+}

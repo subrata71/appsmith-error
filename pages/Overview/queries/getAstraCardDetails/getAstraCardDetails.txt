@@ -1,0 +1,23 @@
+SELECT
+    card_company,
+    last_four_digits,
+    expiration_date,
+    status,
+    address_enabled,
+    pull_enabled,
+    push_enabled
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND email = '{{ lib.getPersonalDetails().email }}') u
+LEFT JOIN
+    (SELECT user_id,
+    card_company,
+    last_four_digits,
+    expiration_date,
+    case when status=1 then 'Approved' else 'Removed' end as status ,
+    case when address_verified is true then 'Approved' else 'Not Approved' end as address_enabled,
+    case when pull_enabled is true then 'Approved' else 'Not Approved' end as pull_enabled,
+    case when push_enabled is true then 'Approved' else 'Not Approved' end as push_enabled
+    FROM mongo_api_externalcardv2
+    ) t
+ON
+    t.user_id = u.user_id;

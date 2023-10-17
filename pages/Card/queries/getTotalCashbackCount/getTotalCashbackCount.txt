@@ -1,0 +1,14 @@
+SELECT
+    u.email AS email,
+    t.txn as total_txns
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getFilterData().juno_user_id }}') u
+LEFT JOIN
+    (SELECT user_id,count(_id) as txn
+     FROM mongo_api_transaction
+     WHERE
+          status.code = 4
+          and transaction_type.name='cashback' and side=2
+     GROUP BY user_id) t
+ON
+    t.user_id = u.user_id;

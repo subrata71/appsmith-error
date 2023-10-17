@@ -1,0 +1,13 @@
+select
+    u.email as email,
+    fr.country
+from
+    (
+        select
+            user_id,
+            country from mongo_api_ipaddress group by user_id,country
+    ) fr
+    left join mongo_api_user u ON u._id = fr.user_id
+where
+    1 = 1
+    and u.email = '{{ lib.getPersonalDetails().email }}'

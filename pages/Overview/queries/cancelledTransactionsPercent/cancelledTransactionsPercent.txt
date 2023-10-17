@@ -1,0 +1,23 @@
+SELECT
+    u.email AS email,
+    t.volume as total_volume,
+    t.settled_count,
+    t.canceled_count,
+    t.txns,
+    case when t.canceled_count > t.txns*0.1 then 'yes' else 'no' end as result
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (SELECT user_id, SUM(COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) AS volume,
+    count(CASE WHEN status.code=4
+     THEN 1 end) as settled_count,
+     count(CASE WHEN status.code=5
+     THEN 1 end) as canceled_count,
+     count(CASE WHEN status.code=6
+     THEN 1 end) as returned_count,
+     count(_id) as txns
+     FROM mongo_api_transaction
+     where transaction_type.name='card_purchase'
+     GROUP BY user_id) t
+ON
+    t.user_id = u.user_id;

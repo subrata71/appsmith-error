@@ -1,0 +1,7 @@
+{
+		"email": {{ lib.getFilterData().email }},
+    "currency": {{ cryptoName.selectedOptionValue}},
+		{{amountCrypto.text ? "amount": "amount_usd"}}: {{ amountCrypto.text? amountCrypto.text : amountUSD.text }},
+		"type": "SELL_ZEROHASH",
+    "force": {{ forcedFlagged.isChecked}}
+}

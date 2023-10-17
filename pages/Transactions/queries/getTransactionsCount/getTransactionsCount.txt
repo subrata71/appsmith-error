@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM mongo_api_transaction WHERE user_id =  '{{ lib.getAccountDetails().juno_user_id }}'

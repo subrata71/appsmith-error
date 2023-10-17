@@ -1,0 +1,11 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+		"type": "synapse_user_permission_update",
+		"meta_data": {
+			"permission": {{lib.getAccountClosure() ? 'CLOSED' : (closeAccountPermission.selectedOptionValue == 'CLOSED_30D' ? 'CLOSED' : closeAccountPermission.selectedOptionValue)}},
+			"permission_code": {{closeAccountPermissionCode.selectedOptionValue}},
+			"note": {{ lib.getAccountClosure() ? uncloseAccountNote.text : closeAccountNote.text}},
+			"cancel": {{ lib.getAccountClosure() ? true : false}},
+			"deduct_termination_fee": {{ chargeClosureFee.isChecked }}
+		}
+}

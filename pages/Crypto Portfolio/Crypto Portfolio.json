@@ -1,0 +1,56 @@
+{
+  "unpublishedPage": {
+    "name": "Crypto Portfolio",
+    "slug": "crypto-portfolio",
+    "layouts": [
+      {
+        "viewMode": false,
+        "dsl": {
+          "widgetName": "MainContainer",
+          "backgroundColor": "none",
+          "rightColumn": 1224,
+          "snapColumns": 64,
+          "detachFromLayout": true,
+          "widgetId": "0",
+          "topRow": 0,
+          "bottomRow": 380,
+          "containerStyle": "none",
+          "snapRows": 77,
+          "parentRowSpace": 1,
+          "type": "CANVAS_WIDGET",
+          "canExtend": true,
+          "version": 83,
+          "minHeight": 790,
+          "parentColumnSpace": 1,
+          "dynamicBindingPathList": [],
+          "leftColumn": 0
+        },
+        "layoutOnLoadActions": [
+          [
+            {
+              "name": "lib.getPortfolioData",
+              "collectionId": "Crypto Portfolio_lib",
+              "confirmBeforeExecute": false,
+              "pluginType": "JS",
+              "jsonPathKeys": [
+                "function () {\n  let portfolio = getBalance.data.data?.crypto_account?.zero_hash?.portfolio;\n  let res = [];\n  res = settings.getCryptoTemplate();\n  for (let item in res) {\n    res[item]['address'] = portfolio[res[item].short_name]?.address || '';\n    res[item]['balance_usd'] = portfolio[res[item].short_name]?.balance_usd || 0;\n    res[item]['balance'] = portfolio[res[item].short_name]?.balance || 0;\n  }\n  return res;\n}"
+              ],
+              "timeoutInMillisecond": 10000
+            }
+          ]
+        ],
+        "layoutOnLoadActionErrors": [],
+        "validOnPageLoadActions": true,
+        "id": "Crypto Portfolio",
+        "deleted": false,
+        "policies": [],
+        "userPermissions": []
+      }
+    ],
+    "userPermissions": [],
+    "policies": [],
+    "isHidden": false
+  },
+  "deleted": false,
+  "gitSyncId": "65141d336e58595db41e7610_651ed44c6e58595db41e7fe2"
+}

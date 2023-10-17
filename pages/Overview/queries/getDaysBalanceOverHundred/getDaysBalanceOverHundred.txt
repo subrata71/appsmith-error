@@ -1,0 +1,11 @@
+select     
+    count(*) as no_of_days 
+from 
+    mongo_api_interesthistory as f,
+    unpivot f.month_summary as value at key
+where 
+    key >= getdate() - INTERVAL '90 days'
+    and value.balance >= 100
+    and user_id = '{{ lib.getAccountDetails().juno_user_id }}'  
+group by 
+    user_id

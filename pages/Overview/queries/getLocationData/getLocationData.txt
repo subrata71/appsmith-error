@@ -1,0 +1,41 @@
+SELECT 
+  xyz.email as email, 
+  split_to_array(
+    listagg(
+      distinct ip.country :: varchar, ','
+    ), 
+    ','
+  ) AS countries, 
+  split_to_array(
+    listagg(
+      distinct ip.city :: varchar, ','
+    ), 
+    ','
+  ) AS cities,
+  -- split_to_array(listagg(distinct ip.ip_address::varchar, ','), ',') AS ips,
+  unique_country_count ,
+  unique_cities_count
+FROM 
+  (
+    SELECT 
+      _id as user_id ,email
+    from 
+      mongo_api_user 
+    where 
+      1 = 1 and email = '{{ lib.getPersonalDetails().email }}'
+  ) xyz 
+  left JOIN mongo_api_ipaddress ip ON xyz.user_id = ip.user_id 
+  left JOIN (
+    SELECT 
+      user_id, 
+      count (distinct country) as unique_country_count ,
+      count (distinct city) as unique_cities_count 
+    from 
+      mongo_api_ipaddress 
+    group by 
+      user_id
+  ) ip1 ON xyz.user_id = ip1.user_id 
+group by 
+  xyz.email,
+  unique_cities_count,unique_country_count
+  order by unique_country_count desc

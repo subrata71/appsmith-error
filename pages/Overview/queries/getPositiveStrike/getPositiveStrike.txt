@@ -1,0 +1,16 @@
+SELECT
+   t.*
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select distinct * from (select user_id,
+    case when strike_name='plaid_customer_score_return_risk_incoming_deposit' then 'Plaid Transfer'
+     when strike_name='balance_after_first_deposit' then 'Balance after first deposit'
+     when strike_name='dd_with_amount' then 'Direct Deposit' 
+    end as strike_name,
+    FIRST_VALUE(added_on) OVER (PARTITION BY user_id ORDER BY added_on DESC
+    ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as last_added_on
+    from userstrikes)
+    ) t
+ON
+    t.user_id = u.user_id;

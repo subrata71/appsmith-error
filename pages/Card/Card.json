@@ -1,0 +1,81 @@
+{
+  "unpublishedPage": {
+    "name": "Card",
+    "slug": "card",
+    "layouts": [
+      {
+        "viewMode": false,
+        "dsl": {
+          "widgetName": "MainContainer",
+          "backgroundColor": "none",
+          "rightColumn": 1224,
+          "snapColumns": 64,
+          "detachFromLayout": true,
+          "widgetId": "0",
+          "topRow": 0,
+          "bottomRow": 380,
+          "containerStyle": "none",
+          "snapRows": 77,
+          "parentRowSpace": 1,
+          "type": "CANVAS_WIDGET",
+          "canExtend": true,
+          "version": 83,
+          "minHeight": 790,
+          "parentColumnSpace": 1,
+          "dynamicBindingPathList": [],
+          "leftColumn": 0
+        },
+        "layoutOnLoadActions": [
+          [
+            {
+              "id": "Card_getSelectedMerchantsUpdate",
+              "name": "getSelectedMerchantsUpdate",
+              "confirmBeforeExecute": false,
+              "pluginType": "DB",
+              "jsonPathKeys": [
+                "choosenDate.formattedDate",
+                " lib.getFilterData().juno_user_id "
+              ],
+              "timeoutInMillisecond": 90000
+            }
+          ],
+          [
+            {
+              "id": "Card_getTotalCashback",
+              "name": "getTotalCashback",
+              "confirmBeforeExecute": false,
+              "pluginType": "DB",
+              "jsonPathKeys": [
+                " lib.getFilterData().juno_user_id "
+              ],
+              "timeoutInMillisecond": 90000
+            }
+          ],
+          [
+            {
+              "id": "Card_getTotalCashbackCount",
+              "name": "getTotalCashbackCount",
+              "confirmBeforeExecute": false,
+              "pluginType": "DB",
+              "jsonPathKeys": [
+                " lib.getFilterData().juno_user_id "
+              ],
+              "timeoutInMillisecond": 40000
+            }
+          ]
+        ],
+        "layoutOnLoadActionErrors": [],
+        "validOnPageLoadActions": true,
+        "id": "Card",
+        "deleted": false,
+        "policies": [],
+        "userPermissions": []
+      }
+    ],
+    "userPermissions": [],
+    "policies": [],
+    "isHidden": false
+  },
+  "deleted": false,
+  "gitSyncId": "651edbfc6e58595db41e8196_651edc236e58595db41e823e"
+}

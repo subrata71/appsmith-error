@@ -1,0 +1,15 @@
+SELECT
+    u.email AS email,
+    t.volume * 0.02 AS revenue
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND email = '{{ lib.getPersonalDetails().email }}') u
+LEFT JOIN
+    (SELECT user_id, SUM(COALESCE(amount, crypto_transaction_info.predicted_fiat_amount)::float) AS volume
+     FROM mongo_api_transaction
+     WHERE
+         transaction_type.name = 'crypto_trade'
+         AND status.code = 4
+         AND crypto_transaction_info.currency NOT IN ('USDC', 'MUSDC', 'SUSDC')
+     GROUP BY user_id) t
+ON
+    t.user_id = u.user_id;

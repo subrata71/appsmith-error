@@ -1,0 +1,38 @@
+select
+t._id,
+t.note as note,
+t.synapse_from.user.legal_names[0]::varchar as from_name,
+t.synapse_to.user.legal_names[0]::varchar as to_name,
+coalesce(amount,crypto_transaction_info.predicted_fiat_amount) as amount,
+t.crypto_transaction_info.predicted_amount.amount as crypto_units,
+t.crypto_transaction_info.currency as currency,
+case when t.side = 2 and t.transaction_type.name = 'crypto_transaction' then 'Crypto deposit'
+when t.side = 1 and t.transaction_type.name = 'crypto_transaction' then 'Crypto send'
+when t.side = 2 and t.transaction_type.name = 'crypto_trade' then 'Crypto Sell'
+when t.side = 1 and t.transaction_type.name = 'crypto_trade' then 'Crypto Buy'
+when t.side = 1 and t.transaction_type.name = 'card_purchase' then 'Card spend'
+when t.side = 1 and t.transaction_type.name not in ('card_purchase', 'crypto_transaction', 'crypto_trade') then 'Cash Withdrawal'
+end as transaction_type,
+CASE 
+    WHEN t.transaction_type.name = 'external_transfer' AND t.from.type = 'ACH' AND is_dd = 1 THEN  'dd'
+    WHEN t.transaction_type.name = 'external_transfer' AND t.from.type = 'ACH' AND is_dd = 2 THEN 'External_ACH'
+    WHEN t.transaction_type.name = 'external_transfer' AND t.from.type = 'WIRE' THEN 'WIRE'
+    WHEN t.synapse_from.meta.merchant_name = 'Cash App' THEN 'Cash_App'
+    WHEN t.synapse_from.meta.merchant_name = 'Apple Cash' THEN 'Apple_Cash'
+    WHEN t.synapse_from.meta.merchant_name = 'Paypal' THEN 'Paypal'
+    WHEN t.synapse_from.meta.merchant_name = 'Venmo' THEN 'Venmo'
+    WHEN t.synapse_from.meta.merchant_name = 'Zelle' THEN 'Zelle' end
+as Method,
+t.status.title::varchar as status,
+t.added_on as Date
+from
+(select _id as user_id, email as email from mongo_api_user where 1=1 and email = '{{ lib.getPersonalDetails().email }}') u 
+left join mongo_api_transaction t ON t.user_id = u.user_id
+where t.transaction_type.code not in (35,36)
+{{
+(synapseTransactionId.text.length == 24 ? "AND t.synapse_transaction_id = '"+ synapseTransactionId.text +"'": '')
+}}
+{{
+(junoTransactionId.text.length == 24 ? "AND t._id = '"+ junoTransactionId.text +"'": '')
+}}
+order by date desc	

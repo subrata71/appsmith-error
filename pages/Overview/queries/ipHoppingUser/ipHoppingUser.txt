@@ -1,0 +1,35 @@
+SELECT
+   distinct u.email AS email,
+    case when q1.time_diff_in_hours>0 and q1.ip_distance_in_kms/q1.time_diff_in_hours>=500  then 'yes' else 'no' end as result
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (
+    SELECT user_id,
+from_state,
+next_state,
+from_state_last_login,
+next_state_first_login,
+time_diff_in_hours,
+Round(ST_DistanceSphere(ST_Point (next_lon, next_lat), ST_Point(lon, lat))/ 1000) as ip_distance_in_kms
+from 
+(SELECT 
+  user_id,
+  region_name as from_state,
+  LEAD(region_name) OVER (PARTITION BY user_id ORDER BY added_on) AS next_state,
+  added_on as from_state_last_login,
+  LEAD(added_on) OVER (PARTITION BY user_id ORDER BY added_on) as next_state_first_login,
+  DATEDIFF(HOUR,added_on,LEAD(added_on) OVER (PARTITION BY user_id ORDER BY added_on)) AS time_diff_in_hours,
+  LEAD(lon) OVER (PARTITION BY user_id ORDER BY added_on) as next_lon,
+  LEAD(lat) OVER (PARTITION BY user_id ORDER BY added_on) as next_lat,
+  lon,
+  lat
+FROM mongo_api_ipaddress
+where 
+ source in ('LOGIN','APPLE_SIGN_IN','BIOMETRIC_LOGIN','GOOGLE_SIGN_IN' )
+and status = 1)
+where from_state != next_state
+ORDER BY user_id, from_state_last_login 
+ ) q1
+ON
+    q1.user_id = u.user_id;

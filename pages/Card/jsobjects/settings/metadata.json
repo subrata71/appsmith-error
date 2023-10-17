@@ -1,0 +1,24 @@
+{
+  "unpublishedCollection": {
+    "name": "settings",
+    "pageId": "Card",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [
+      {
+        "name": "roles",
+        "value": "{\n  admin: ['mukesh@onjuno.com', 'pratik@onjuno.com', 'rasleen@onjuno.com', 'neil@onjuno.com', 'sid@onjuno.com'],\n  risk: ['nitin@onjuno.com', 'pradeep@onjuno.com', 'michelle@onjuno.com', 'prashanth@onjuno.com', 'ankita@onjuno.com', 'chandana@onjuno.com', 'vijay@onjuno.com', 'murali@onjuno.com'],\n  cs_lead: ['pallavi@onjuno.com', 'priya@onjuno.com', 'neil@onjuno.com', 'nazim@onjuno.com', 'vidyut@onjuno.com', 'ujjwal@onjuno.com', 'shubham@onjuno.com', 'anoushka@onjuno.com'],\n  product: ['ankit@onjuno.com'],\n  generic: []\n}"
+      },
+      {
+        "name": "config",
+        "value": "{\n  tiers: {\n    4: {\n      name: 'metal',\n      display: 'Metal'\n    },\n    5: {\n      name: 'basic',\n      display: 'Basic'\n    },\n    6: {\n      name: 'basic_enhanced',\n      display: 'Basic Enhanced'\n    },\n    7: {\n      name: 'basic_minus',\n      display: 'Basic Minus'\n    },\n    8: {\n      name: 'basic_pro',\n      display: 'Basic Pro'\n    },\n    9: {\n      name: 'metal_minus',\n      display: 'Metal Minus'\n    }\n  }\n}"
+      }
+    ],
+    "userPermissions": []
+  },
+  "id": "Card_settings",
+  "deleted": false,
+  "gitSyncId": "651edbfc6e58595db41e8196_651edc246e58595db41e8264"
+}

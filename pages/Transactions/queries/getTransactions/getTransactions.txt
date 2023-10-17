@@ -1,0 +1,1 @@
+SELECT * FROM mongo_api_transaction WHERE user_id =  '{{ lib.getAccountDetails().juno_user_id }}'  LIMIT {{ transactionTable.pageSize }} OFFSET {{ (transactionTable.pageNo - 1) * transactionTable.pageSize }} 

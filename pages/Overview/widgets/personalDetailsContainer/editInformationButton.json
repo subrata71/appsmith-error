@@ -1,0 +1,101 @@
+{
+    "isCompact": false,
+    "boxShadow": "none",
+    "mobileBottomRow": 206,
+    "widgetName": "editInformationButton",
+    "configureMenuItems": {
+        "label": "Configure menu items",
+        "id": "config",
+        "config": {
+            "id": "config",
+            "label": "Menu Item",
+            "isVisible": true,
+            "isDisabled": false
+        }
+    },
+    "dynamicPropertyPathList": [
+        {"key": "menuItems.menuItem1.onClick"},
+        {"key": "menuItems.menuItem2.onClick"},
+        {"key": "menuItems.menuItem4dilwvhbey.onClick"},
+        {"key": "menuItems.menuItem6yu8400ers.onClick"}
+    ],
+    "displayName": "Menu button",
+    "iconSVG": "/static/media/icon.631848e88e7a3db05f6015f22835e81b.svg",
+    "topRow": 33,
+    "bottomRow": 37,
+    "parentRowSpace": 10,
+    "type": "MENU_BUTTON_WIDGET",
+    "hideCard": false,
+    "mobileRightColumn": 19,
+    "animateLoading": true,
+    "parentColumnSpace": 17.9375,
+    "dynamicTriggerPathList": [
+        {"key": "menuItems.menuItem1.onClick"},
+        {"key": "menuItems.menuItem2.onClick"},
+        {"key": "menuItems.menuItem4dilwvhbey.onClick"},
+        {"key": "menuItems.menuItem6yu8400ers.onClick"}
+    ],
+    "leftColumn": 21,
+    "dynamicBindingPathList": [],
+    "isDisabled": false,
+    "sourceData": [],
+    "key": "h2wrz8ek99",
+    "isDeprecated": false,
+    "rightColumn": 42,
+    "menuVariant": "PRIMARY",
+    "widgetId": "lyyazrstgd",
+    "menuItems": {
+        "menuItem6yu8400ers": {
+            "onClick": "{{showModal('updateMailingAddress');}}",
+            "widgetId": "x3t1tirn2n",
+            "index": 3,
+            "id": "menuItem6yu8400ers",
+            "label": "Update Mailing Address",
+            "isDisabled": false,
+            "isVisible": true
+        },
+        "menuItem1": {
+            "onClick": "{{showModal('updateNameModal');}}",
+            "widgetId": "",
+            "index": 0,
+            "label": "Update Name",
+            "id": "menuItem1",
+            "isVisible": true,
+            "isDisabled": false
+        },
+        "menuItem2": {
+            "onClick": "{{showModal('updateEmailModal');}}",
+            "widgetId": "",
+            "index": 1,
+            "label": "Update Email",
+            "id": "menuItem2",
+            "isVisible": true,
+            "isDisabled": false
+        },
+        "menuItem4dilwvhbey": {
+            "onClick": "{{showModal('updatePhoneModal');}}",
+            "widgetId": "qton2rar5k",
+            "index": 2,
+            "id": "menuItem4dilwvhbey",
+            "label": "Update Phone",
+            "isDisabled": false,
+            "isVisible": true
+        }
+    },
+    "isVisible": true,
+    "label": "Edit Information",
+    "version": 1,
+    "parentId": "asjv0q2zh6",
+    "tags": ["Buttons"],
+    "renderMode": "CANVAS",
+    "isLoading": false,
+    "mobileTopRow": 202,
+    "originalTopRow": 29,
+    "borderRadius": "0.375rem",
+    "mobileLeftColumn": 3,
+    "menuItemsSource": "STATIC",
+    "menuColor": "#eaeafe",
+    "originalBottomRow": 33,
+    "iconAlign": "left",
+    "placement": "CENTER"
+}

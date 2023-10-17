@@ -1,0 +1,11 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+    "adddress": {
+				"apartment_number": {{ apartmentNumber.text }},
+				"street": {{ street.text }},
+				"city": {{city.text}},
+				"state": {{ state.text }},
+				"zip_code": {{ zipCode.text }},
+				"country_code": 'US'
+		}
+}

@@ -1,0 +1,20 @@
+{
+  "unpublishedCollection": {
+    "name": "lib",
+    "pageId": "Overview",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [
+      {
+        "name": "globalSkeleton",
+        "value": "'Fetching data'"
+      }
+    ],
+    "userPermissions": []
+  },
+  "id": "Overview_lib",
+  "deleted": false,
+  "gitSyncId": "64e36c741c51a966df2e3ca9_64e4d2206e58595db41e5ffa"
+}

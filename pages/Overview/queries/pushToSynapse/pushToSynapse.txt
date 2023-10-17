@@ -1,0 +1,4 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+		"cip_tag": {{ manualKYCNote.text }}
+}

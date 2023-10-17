@@ -1,0 +1,32 @@
+{
+  "unpublishedCollection": {
+    "name": "query",
+    "pageId": "Overview",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [
+      {
+        "name": "dayCountOverHundredData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      },
+      {
+        "name": "totalVolumeTxnsData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      },
+      {
+        "name": "negativeBalanceData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      },
+      {
+        "name": "transactionDisputesData",
+        "value": "{\n  'loading': false,\n  'error': null,\n  'data': {}\n}"
+      }
+    ],
+    "userPermissions": []
+  },
+  "id": "Overview_query",
+  "deleted": false,
+  "gitSyncId": "6523d3406e58595db41e864b_652668ef6e58595db41e88bc"
+}

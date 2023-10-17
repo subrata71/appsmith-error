@@ -1,0 +1,18 @@
+SELECT
+    t.txns,
+    t.status,
+    t.volume
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select user_id,count(_id) as txns,sum(amount) as volume,
+      case when synapse_extra.other.dispute_meta.dispute_status in ('CREATED',
+                            'PENDING|SUBMITTED',
+                            'PENDING|WON',
+                            'PENDING|LOST') then 'Pending'
+     when synapse_extra.other.dispute_meta.dispute_status = 'CLOSED|WON' then 'Won' 
+     when synapse_extra.other.dispute_meta.dispute_status = 'CLOSED|LOST' then 'Lost' end as status
+    from mongo_api_transaction where synapse_extra.other.disputed=true group by user_id,synapse_extra.other.dispute_meta.dispute_status
+    ) t
+ON
+    t.user_id = u.user_id;

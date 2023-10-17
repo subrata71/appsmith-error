@@ -1,0 +1,10 @@
+SELECT
+    u.email AS email,
+    t.user_agent as device_info
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select user_id,user_agent
+from mongo_api_userfingerprint where status=1) t
+ON
+    t.user_id = u.user_id;

@@ -1,0 +1,44 @@
+select 
+  (
+    select 
+      email 
+    from 
+      mongo_api_user 
+    where 
+      mongo_api_user._id = ref.parent_user_id
+  ) as parent_email, 
+  (
+    select 
+      email 
+    from 
+      mongo_api_user 
+    where 
+      mongo_api_user._id = ref.child_user_id
+  ) as child_email, 
+  (
+    select 
+      synapse_permission 
+    from 
+      mongo_api_user 
+    where 
+      mongo_api_user._id = ref.child_user_id
+  ) as child_synapse_permission, 
+  (
+    select 
+      case when permission.flag is not null then 'Flagged' else 'Not flagged' end as flag_status 
+    from 
+      mongo_api_user 
+    where 
+      mongo_api_user._id = ref.child_user_id
+  ) as child_flag_status 
+from 
+  (
+    select 
+      _id as user_id 
+    from 
+      mongo_api_user 
+    where 
+      1 = 1 
+      and email = '{{ lib.getPersonalDetails().email }}'
+  ) u 
+  left join mongo_api_referral ref on u.user_id = ref.parent_user_id

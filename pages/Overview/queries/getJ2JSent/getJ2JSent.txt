@@ -1,0 +1,20 @@
+SELECT u1.email,
+       u1.synapse_permission,
+       case when u1.permission.transaction.debit=false then 'flagged' else 'not flagged' end as juno_status
+from (SELECT
+   *
+FROM
+    (SELECT _id AS uid,email FROM mongo_api_user WHERE 1=1 AND email = '{{ lib.getPersonalDetails().email }}') u
+LEFT JOIN
+    (SELECT user_id,synapse_to.user._id::text as to_synapse_user_id
+     FROM mongo_api_transaction
+     WHERE
+          status.code = 4
+          AND side = 1
+          AND transaction_type.name = 'external_transfer'
+          AND synapse_to.type = 'IC-DEPOSIT-US'
+          AND synapse_from.type = 'IC-DEPOSIT-US'
+     GROUP BY user_id,to_synapse_user_id
+     ) t
+ON
+    t.user_id = u.uid) q1 join mongo_api_user u1 on u1.synapse_user_id::text=q1.to_synapse_user_id::text

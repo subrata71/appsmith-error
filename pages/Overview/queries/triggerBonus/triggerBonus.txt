@@ -1,0 +1,6 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+    "amount": {{triggerBonusAmount.text}},
+    "note": {{triggerBonusNote.text}},
+    "code":{{triggerBonusCode.selectedOptionValue}}
+}

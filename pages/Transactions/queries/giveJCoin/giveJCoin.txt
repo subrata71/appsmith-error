@@ -1,0 +1,10 @@
+{
+  "email": {{ lib.getPersonalDetails().email }},
+    "coin_to_be_awarded": {
+        "tag": {{jcoinTag.selectedOptionValue}},
+        "txn_id": {{junoTxnId.text}},
+        "bonus_tag":{{bonusTag.selectedOptionValue}},
+        "bonus_amount":{{jcoinAmount.text}},
+        "child_email": {{refereeEmail.text}}
+    }
+}

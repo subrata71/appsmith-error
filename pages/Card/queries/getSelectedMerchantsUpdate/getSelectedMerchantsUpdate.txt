@@ -1,0 +1,33 @@
+select * from (Select
+merchant_name,
+merchant_id,
+category,
+case 
+    when 
+        timestamp 'epoch' + cast(selected_date AS bigint)/1000 * interval '1 second' is null
+    then selected_date
+        else  (timestamp 'epoch' + cast(selected_date AS bigint)/1000 * interval '1 second')::varchar
+end as selected_date,
+u.email,u._id as userid
+from
+(
+SELECT
+    tf.name::varchar AS merchant_name,
+    tf._id::varchar AS merchant_id,
+    tf.category::varchar AS category,
+    tf.added_on AS selected_date,
+    action,
+    tf,
+    user_id
+FROM
+    mongo_api_useraction a,
+    a.action_data.selected_merchants as tf at tf_index) f
+    JOIN mongo_api_user u ON f.user_id = u._id
+WHERE
+    f.action = 'selected_merchants_update'
+    AND tf IS NOT NULL
+   )
+where
+		date_trunc('month', selected_date :: date) = '{{choosenDate.formattedDate}}'
+		and userid = '{{ lib.getFilterData().juno_user_id }}'
+    order by selected_date desc

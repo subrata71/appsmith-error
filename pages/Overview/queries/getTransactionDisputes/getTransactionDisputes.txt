@@ -1,0 +1,35 @@
+SELECT 
+  u.email AS "Email",
+  u.subscription_info.type AS Tier,
+  u.added_on as user_added_on, 
+  txn.card.name,
+  txn.added_on AS "Txn Added On",
+  txn.synapse_transaction_id AS "Synapse Txn ID",
+  txn.amount AS "Txn Amount",
+  txn.synapse_to.user.legal_names AS "Merchant Legal Name",
+  txn.synapse_to.meta.mid AS "MID",
+  txn.synapse_to.meta.acquirer_reference_number AS "acquirer_reference_number",
+  txn.card.number AS "Card last 4 digits",
+  txn.synapse_to.meta.foreign_transaction AS "foreign_transaction",
+  txn.synapse_to.meta.is_recurring AS "is_recurring",
+  txn.synapse_to.meta.is_force_post AS "is_force_post",
+  txn.synapse_to.meta.pan_entry_mode AS "pan_entry_mode",
+  txn.synapse_to.meta.pin_entry_mode AS "pin_entry_mode",
+  txn.synapse_to.meta.presentment_info AS "presentment_info",
+  txn.synapse_to.meta.terminal_info AS "terminal_info",
+  txn.synapse_to.meta.type AS "type",
+  timestamp 'epoch' + cast(txn.synapse_extra.other.dispute_meta.created_date AS bigint)/1000 * interval '1 second' AS "Dispute Raised On",
+  COALESCE(txn.synapse_extra.other.dispute_meta.dispute_reason, txn.synapse_extra.other.dispute_reason) AS "Dispute Reason",
+  txn.synapse_extra.other.dispute_meta.dispute_status AS "Dispute Status",
+  txn.synapse_extra.other.dispute_meta.dispute_status_note AS "Dispute Status note",
+  txn.synapse_extra.other.dispute_meta.provisional_credit_transaction_id AS "Provisional Credit Txn Id",
+    COALESCE(pc.status.title, '') as "provisional_credit_status",
+    pc.added_on as "provisional_credit_created_on",
+  COALESCE(txn.synapse_extra.other.dispute_meta.network_credit_transaction_id, '') AS "merchant_credit_id"
+FROM mongo_api_transaction AS txn
+LEFT JOIN mongo_api_user u ON txn.user_id = u._id
+LEFT JOIN mongo_api_transaction pc on pc.synapse_transaction_id=txn.synapse_extra.other.dispute_meta.provisional_credit_transaction_id
+WHERE 
+  txn.synapse_extra.other.disputed = true
+  AND u.email = '{{lib.getPersonalDetails().email}}'
+ORDER BY "Dispute Raised On" DESC;

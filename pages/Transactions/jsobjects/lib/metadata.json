@@ -1,0 +1,15 @@
+{
+  "unpublishedCollection": {
+    "name": "lib",
+    "pageId": "Transactions",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "actions": [],
+    "archivedActions": [],
+    "variables": [],
+    "userPermissions": []
+  },
+  "id": "Transactions_lib",
+  "deleted": false,
+  "gitSyncId": "650332f06e58595db41e70df_650997506e58595db41e727e"
+}

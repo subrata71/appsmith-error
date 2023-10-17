@@ -1,0 +1,13 @@
+SELECT
+    u.email AS email,
+    t.pii_update_count,
+    case when t.pii_update_count > 0 then 'yes' else 'no' end as result
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select user_id,count(_id) as pii_update_count 
+ from mongo_api_useraction where action in ('email_update','name_update','password_update','phone_update')
+ group by user_id
+ ) t
+ON
+    t.user_id = u.user_id;

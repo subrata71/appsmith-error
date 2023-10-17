@@ -1,0 +1,4 @@
+{
+	"email": {{ lib.getPersonalDetails().email }},
+	"card_id": {{ lib.getSelectedCardDetails().id}}
+}

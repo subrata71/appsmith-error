@@ -1,0 +1,28 @@
+SELECT
+   distinct u.email AS email,
+    q1.first_pii_done,
+    q1.first_txn,
+    case when q1.first_pii_done<q1.first_txn  then 'yes' else 'no' end as result
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select first_pii_done,t.user_id,
+FIRST_VALUE(t.added_on) 
+OVER (
+  PARTITION BY t.user_id
+  ORDER BY t.added_on ASC 
+  ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+) AS first_txn
+from (
+select distinct user_id,
+FIRST_VALUE(added_on) 
+OVER (
+  PARTITION BY user_id
+  ORDER BY added_on ASC 
+  ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+) AS first_pii_done from mongo_api_useraction where action in ('email_update','name_update','password_update','phone_update') ) q1
+join mongo_api_transaction t on q1.user_id=t.user_id 
+where t.status.code=4
+ ) q1
+ON
+    q1.user_id = u.user_id;

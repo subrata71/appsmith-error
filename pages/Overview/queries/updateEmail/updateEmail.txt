@@ -1,0 +1,5 @@
+{
+    "email": {{ lib.getPersonalDetails().email }},
+    "new_email": {{newEmail.text}},
+
+}

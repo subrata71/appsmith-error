@@ -1,0 +1,32 @@
+select 
+  xyz.email, 
+  (
+    ip1.region_name || ' , ' || ip1.country
+  ) as current_location 
+from 
+  (
+    select 
+      _id as user_id ,email
+    from 
+      mongo_api_user 
+    where 
+      1 = 1 and email = '{{ lib.getPersonalDetails().email }}'
+  ) xyz 
+  left join (
+    select 
+      user_id, 
+      FIRST_VALUE(added_on) OVER (
+        PARTITION BY user_id 
+        ORDER BY 
+          added_on DESC ROWS BETWEEN UNBOUNDED PRECEDING 
+          AND UNBOUNDED FOLLOWING
+      ) AS first_added_on 
+    from 
+      mongo_api_ipaddress
+  ) ip ON ip.user_id = xyz.user_id 
+  left join mongo_api_ipaddress ip1 ON ip1.user_id = xyz.user_id 
+where 
+  first_added_on = ip1.added_on 
+group by 
+  xyz.email, 
+  current_location

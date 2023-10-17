@@ -1,0 +1,103 @@
+{
+    "boxShadow": "none",
+    "mobileBottomRow": 44,
+    "setAdaptiveYMin": true,
+    "widgetName": "Chart1",
+    "allowScroll": false,
+    "dynamicPropertyPathList": [{"key": "chartType"}],
+    "displayName": "Chart",
+    "iconSVG": "/static/media/icon.8eea39845729f7f4bfadeecd3810a09d.svg",
+    "searchTags": [
+        "graph",
+        "visuals",
+        "visualisations"
+    ],
+    "topRow": 5,
+    "bottomRow": 40,
+    "parentRowSpace": 10,
+    "type": "CHART_WIDGET",
+    "hideCard": false,
+    "mobileRightColumn": 18,
+    "chartData": {"6xrgs7bbmk": {
+        "data": "{{ lib.getGraphData()}}",
+        "seriesName": "Monthly Interest"
+    }},
+    "animateLoading": true,
+    "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+    "parentColumnSpace": 6.9375,
+    "dynamicTriggerPathList": [],
+    "leftColumn": 1,
+    "dynamicBindingPathList": [
+        {"key": "accentColor"},
+        {"key": "fontFamily"},
+        {"key": "chartData.6xrgs7bbmk.data"}
+    ],
+    "customFusionChartConfig": {
+        "type": "column2d",
+        "dataSource": {
+            "data": [
+                {
+                    "label": "Product1",
+                    "value": 20000
+                },
+                {
+                    "label": "Product2",
+                    "value": 22000
+                },
+                {
+                    "label": "Product3",
+                    "value": 32000
+                }
+            ],
+            "chart": {
+                "legendIconSides": "4",
+                "canvasPadding": "0",
+                "captionAlignment": "center",
+                "yAxisNameFontSize": "14",
+                "caption": "Sales Report",
+                "labelFontColor": "#716e6e",
+                "chartLeftMargin": "20",
+                "captionFontSize": "24",
+                "chartTopMargin": "10",
+                "theme": "fusion",
+                "legendIconAlpha": "100",
+                "chartBottomMargin": "10",
+                "labelFontSize": "12",
+                "xAxisNameFontColor": "#716e6e",
+                "yAxisNameFontColor": "#716e6e",
+                "captionFontColor": "#231F20",
+                "yAxisValueFontColor": "#716e6e",
+                "captionPadding": "20",
+                "yAxisName": "Revenue($)",
+                "legendIconBgAlpha": "100",
+                "xAxisName": "Product Line",
+                "alignCaptionWithCanvas": 1,
+                "chartRightMargin": "40",
+                "legendPosition": "top",
+                "xAxisNameFontSize": "14",
+                "yAxisValueFontSize": "12"
+            }
+        }
+    },
+    "key": "wgwbs5p1pd",
+    "isDeprecated": false,
+    "rightColumn": 62,
+    "widgetId": "z50uhwnb6a",
+    "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+    "minWidth": 450,
+    "isVisible": true,
+    "version": 1,
+    "parentId": "w2ynd19rfu",
+    "labelOrientation": "auto",
+    "tags": ["Display"],
+    "renderMode": "CANVAS",
+    "isLoading": false,
+    "mobileTopRow": 12,
+    "responsiveBehavior": "fill",
+    "yAxisName": "Interest Earned",
+    "chartName": "",
+    "borderRadius": "0px",
+    "mobileLeftColumn": 0,
+    "xAxisName": "",
+    "chartType": "COLUMN_CHART"
+}

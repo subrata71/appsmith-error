@@ -1,0 +1,26 @@
+select
+    user_id,
+    u.email as email,
+    flag_time,
+    logic_tags
+from
+    (
+        select
+            user_id,
+            key,
+            value,
+            timestamp 'epoch' + cast(tf.added_on AS bigint) / 1000 * interval '1 second' as flag_time,
+            tf.logic_tags
+        from
+            mongo_api_fraudcase f,
+            f.triggered_effects as tf at tf_index,
+            unpivot tf as value at key
+        where
+            key = 'tag'
+            and value = 'FLAG_USER'
+    ) fr
+    left join mongo_api_user u ON u._id = fr.user_id
+where
+    1 = 1
+    and u.email = '{{ lib.getPersonalDetails().email }}'
+ order by flag_time desc

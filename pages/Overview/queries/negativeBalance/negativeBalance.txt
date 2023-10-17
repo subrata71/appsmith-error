@@ -1,0 +1,10 @@
+SELECT
+    u.email AS email,
+    t.balance
+FROM
+    (SELECT _id AS user_id,email FROM mongo_api_user WHERE 1=1 AND _id = '{{ lib.getAccountDetails().juno_user_id }}') u
+LEFT JOIN
+    (select user_id,case when balance<0 then balance else 0 end as balance from mongo_api_account where is_internal=1
+    ) t
+ON
+    t.user_id = u.user_id;

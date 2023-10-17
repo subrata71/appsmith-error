@@ -1,0 +1,7 @@
+{
+		"email": {{ lib.getPersonalDetails().email }},
+    "type": {{ cardType.selectedOptionValue}}
+    "delivery_type": {{ cardDeliveryType.selectedOptionValue}}
+    "sub_type": {{ cardSubtype.selectedOptionValue}}
+    "skip_charge": {{ cardCharge.selectedOptionValue}}
+}
